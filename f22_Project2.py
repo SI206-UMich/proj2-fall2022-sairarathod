@@ -4,6 +4,7 @@ import re
 import os
 import csv
 import unittest
+import requests
 
 
 def get_listings_from_search_results(html_file):
@@ -25,6 +26,28 @@ def get_listings_from_search_results(html_file):
         ('Loft in Mission District', 210, '1944564'),  # example
     ]
     """
+    url = html_file
+    r = open(url, 'r')
+    my_str = ""
+    for line in r:
+        line = line.strip()
+        my_str += line
+    soup = BeautifulSoup(my_str, 'html.parser')
+    r.close()
+
+    tup = ()
+    title_tags = soup.find_all('h1', class_ = '_fecoyn4')
+    price_tags = soup.find_all('span', class_ = '_tyxjp1')
+    find_price = re.findall('class="_tyxjp1">$(\d{3})', price_tags)
+    print(find_price)
+
+    id_tags = re.findall('https://www.airbnb.com/rooms/(\d{7})', url)
+
+    tup = (title_tags, price_tags, id_tags)
+   # print(tup)
+    return tup
+    
+    
     pass
 
 
@@ -243,3 +266,5 @@ if __name__ == '__main__':
     write_csv(database, "airbnb_dataset.csv")
     check_policy_numbers(database)
     unittest.main(verbosity=2)
+
+    get_listings_from_search_results("html_files/mission_district_search_results.html")
