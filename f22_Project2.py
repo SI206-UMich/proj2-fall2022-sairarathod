@@ -6,6 +6,8 @@ import csv
 import unittest
 import requests
 
+# My name: Saira Rathod (rathods@umich.edu)
+# Worked with: Lilly Goebel and Alina Parr
 
 def get_listings_from_search_results(html_file):
     """
@@ -26,29 +28,31 @@ def get_listings_from_search_results(html_file):
         ('Loft in Mission District', 210, '1944564'),  # example
     ]
     """
-    url = html_file
-    r = open(url, 'r')
-    my_str = ""
-    for line in r:
-        line = line.strip()
-        my_str += line
+    f = open(html_file, 'r')
+    my_str = f.read()
+    f.close()
+    
     soup = BeautifulSoup(my_str, 'html.parser')
-    r.close()
 
-    tup = ()
-    title_tags = soup.find_all('h1', class_ = '_fecoyn4')
-    price_tags = soup.find_all('span', class_ = '_tyxjp1')
-    find_price = re.findall('class="_tyxjp1">$(\d{3})', price_tags)
-    print(find_price)
+    title_tag = soup.find_all('div', class_='t1jojoys dir dir-ltr')
+    title_list = []
+    for title in title_tag:
+        title_list.append(title.text.strip())
 
-    id_tags = re.findall('https://www.airbnb.com/rooms/(\d{7})', url)
+    price_tag = soup.find_all('span', class_='_tyxjp1')
+    price_list = []
+    for price in price_tag:
+        price_list.append(price.text.strip('$'))
 
-    tup = (title_tags, price_tags, id_tags)
-   # print(tup)
-    return tup
-    
-    
-    pass
+    ids = str(soup.find_all('a', class_='ln2bl2p dir dir-ltr'))
+    id_list = re.findall('\d{7}', ids)
+
+    endList = []
+    for i in range(len(title_tag)):
+         tup=(title_list[i], int(price_list[i]), id_list[i])
+         endList.append(tup)
+    print(endList)
+    return endList
 
 
 def get_listing_information(listing_id):
