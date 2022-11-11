@@ -96,7 +96,7 @@ def get_listing_information(listing_id):
         cleaned_policy_num = "Pending"
     else:
         cleaned_policy_num = "Exempt"
-    #print(cleaned_policy_num)
+    
 
     place_type = str(soup.find_all('h2', class_="_14i3z6h"))
     if re.findall('Private', place_type):
@@ -113,10 +113,8 @@ def get_listing_information(listing_id):
         bedroom_num = 1
     else:
         bedroom_num = int(re.findall('(\d\d?) \w*\s?bedrooms?', bedroom_num_tags)[0])
-    #print(bedroom_num)
 
     myTup = (cleaned_policy_num, place, bedroom_num)
-    #print(myTup)
     return myTup
 
 
