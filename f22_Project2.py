@@ -204,15 +204,11 @@ def check_policy_numbers(data):
     """
     final_id = []
     for item in data:
-        #print(item)
         id = item[3]
-        #print(id)
         if re.findall('(?:20\d\d-00\d\d\d\dSTR|STR-000\d\d\d\d|(?:P|p)ending|Exempt)', id):
             ignore = re.findall('(?:20\d\d-00\d\d\d\dSTR|STR-000\d\d\d\d|(?:P|p)ending|Exempt)', id)
         else:
-            #print(item)
             final_id.append(item[2])
-    #print(final_id)
     return final_id
 
     pass
